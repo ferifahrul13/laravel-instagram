@@ -18,7 +18,5 @@
         "sass": "^1.15.2",
         "sass-loader": "^8.0.0"
     },
-    "dependencies": {
-        "tools-for-instagram": "^1.8.11"
-    }
+    "dependencies": {}
 }
