@@ -4,13 +4,14 @@ namespace App\Http\Controllers\api\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        
+
         $response = Http::post('http://localhost:8004/oauth/token', [
             'grant_type' => 'password',
             'client_id' => '9120013e-599e-4b4f-8260-608627cd7cdd',
@@ -23,11 +24,18 @@ class LoginController extends Controller
 
         if ($response->clientError()) {
             return $response->json('Email / Password salah', 400);
-
         } elseif ($response->serverError()) {
             return $response->json('Server Error', 500);
-
         }
         return $response->body();
+    }
+
+    public function logout()
+    {
+        Auth::user()->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
+
+        return response()->json('log out berhasil', 200);
     }
 }
